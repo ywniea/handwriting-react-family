@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import TodoList from './myredux/testComp/todolist';
+
+// import ReduxTodoList from './myredux/testComp/todolist';
+import ReactReduxTodoList from './myreact-redux/testComp/CompWithProvider';
+
 const jsx = (
 	<div>
-		<TodoList />
+		{/* <ReduxTodoList /> */}
+		<ReactReduxTodoList />
 	</div>
 );
 

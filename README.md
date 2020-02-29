@@ -16,6 +16,9 @@ A simple version of react family.
 
 ### react-redux
 
+- connect
+- provider
+
 ### react-router
 
 ### react 
