@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
+import TodoList from './myredux/testComp/todolist';
 const jsx = (
-	<div>123</div>
+	<div>
+		<TodoList />
+	</div>
 );
 
 ReactDOM.render(jsx, document.getElementById('root'));

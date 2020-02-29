@@ -1,7 +1,8 @@
-## handwriting react family
+## Handwriting react family
 A simple version of react family.
 
 ### redux
+
 - applyMiddleware
 - bindActionCreators
 - combineReducer
@@ -9,6 +10,9 @@ A simple version of react family.
 - crateStore
 
 ### redux-middleware
+
+- logger
+- thunk
 
 ### react-redux
 
