@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export default class Input extends Component {
 	render() {
-		const { input, onKeyDown, onChange, onAdd } = this.props;
+		const { input, onKeyDown, onChange, onAdd, onAsyncAdd } = this.props;
 		return (
 			<div>
 				<input
@@ -10,6 +10,7 @@ export default class Input extends Component {
 					onKeyDown={onKeyDown}
 					onChange={onChange} />
 				<button onClick={onAdd}>Add</button>
+				<button onClick={onAsyncAdd} >Async Add</button>
 			</div>
 		)
 	}

@@ -52,6 +52,17 @@ export default class TodoList extends Component {
 			dispatch({ type: inputActions.UPDATE, payload: '' });
 		}
 	}
+	onAsyncAdd = () => {
+		const { dispatch } = store;
+		const timerAdd = (dispatch) => {
+			const { input } = this.state;
+			setTimeout(() => {
+				dispatch({ type: todoListActions.ADD, payload: input });
+				dispatch({ type: inputActions.UPDATE, payload: '' });
+			}, 1500);
+		}
+		dispatch(timerAdd);
+	}
 	onChange = (e) => {
 		e.preventDefault();
 		const { dispatch } = store;
@@ -83,7 +94,8 @@ export default class TodoList extends Component {
 					input={input}
 					onKeyDown={this.onKeyDown}
 					onChange={this.onChange}
-					onAdd={this.onAdd} />
+					onAdd={this.onAdd}
+					onAsyncAdd={this.onAsyncAdd} />
 				<ControlButton
 					showAll={this.showAll}
 					showFinished={this.showFinished}
