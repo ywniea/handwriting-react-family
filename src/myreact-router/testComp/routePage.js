@@ -6,6 +6,19 @@ import Redirect from '../Redirect';
 import Link from '../Link';
 import { Main, ProductList, Login, Settings } from './pages';
 
+
+function LoginGuard({ isLogin, component: Comp, ...rest }) {
+	return (
+		<Route
+			{...rest}
+			render={(props) => {
+				return isLogin
+					? (<Comp {...props} />)
+					: (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />);
+			}} />
+	);
+}
+
 export default class RouteTest extends Component {
 	render() {
 		return (
@@ -18,7 +31,7 @@ export default class RouteTest extends Component {
 					<Route exact path='/' component={Main} />
 					<Route path='/product' component={ProductList} />
 					<Route path='/login' component={Login} />
-					<Route path='/settings' component={Settings} />
+					<LoginGuard path='/settings' component={Settings} isLogin />
 					<Redirect to='/login' />
 				</Switch>
 			</BrowserRouter>

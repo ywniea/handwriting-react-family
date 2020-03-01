@@ -32,7 +32,13 @@ export function ProductList() {
 		<div>
 			ProductList Page
 			<Link to="/product/books" >books</Link>
+			<Link to="/product/pens" >pens</Link>
+			<Link to="/product/erasers" >erasers</Link>
+
 			<Route path='/product/books' component={Books} />
+			<Route path='/product/pens' component={Pens} />
+			<Route path='/product/erasers' component={Erasers} />
+
 		</div>
 	)
 }
@@ -40,7 +46,21 @@ export function ProductList() {
 export function Books() {
 	return (
 		<div>
-			Books Page
+			There are many Books!
+		</div>
+	)
+}
+export function Pens() {
+	return (
+		<div>
+			There are many Pens!
+		</div>
+	)
+}
+export function Erasers() {
+	return (
+		<div>
+			There are many Erasers!
 		</div>
 	)
 }

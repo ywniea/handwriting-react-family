@@ -1,5 +1,5 @@
 ## Handwriting react family
-A simple version of react family.
+Handwrite a simple version of react family.
 
 ### redux
 
