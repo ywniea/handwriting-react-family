@@ -21,5 +21,12 @@ A simple version of react family.
 
 ### react-router
 
+- BrowserRouter
+- Switch
+- Route
+- Redirect
+- Link
+
 ### react 
 
+- React.Component
