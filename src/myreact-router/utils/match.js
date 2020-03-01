@@ -21,11 +21,6 @@ export function complilePath(path, options) {
 	return result;
 }
 
-// pathname="/bar/tony"
-// options={
-//   path: "/foo",
-//   component: () => {…}
-// }
 export function matchPath(pathname, options = {}) {
 	if (typeof options === 'string') options = { path: options };
 

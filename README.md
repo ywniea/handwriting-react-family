@@ -30,3 +30,4 @@ A simple version of react family.
 ### react 
 
 - React.Component
+- React.createElement
