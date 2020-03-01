@@ -14,11 +14,14 @@ export default class Link extends Component {
 					const { children, to, ...rest } = this.props;
 					const { history } = context;
 					return (
-						<a
-							{...rest}
-							onClick={(event) => this.handleClick(event, history)} href={to} >
-							{children}
-						</a>);
+						<div>
+							<a
+								{...rest}
+								onClick={(event) => this.handleClick(event, history)} href={to} >
+								{children}
+							</a>
+						</div>
+					);
 				}}
 			</RouterContext.Consumer>
 		)

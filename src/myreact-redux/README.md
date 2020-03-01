@@ -1,4 +1,6 @@
-### react-redux做了两件事情
+## react-redux
+
+react-redux主要实现了下面两个：
 
 - provider
 provider的作用是利用React.createContext将store作为上下文传递给子组件，供子组件消费。

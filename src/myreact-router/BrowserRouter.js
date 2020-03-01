@@ -34,15 +34,16 @@ export default class BrowserRouter extends Component {
 	}
 
 	render() {
-		const { chidlren = null } = this.props;
+		const { children } = this.props;
 		return (
-			<RouterContext.Provider value={{
-				history: this.history,
-				location: this.state.location,
-				match: BrowserRouter.computeRootMatch(this.state.location.pathname)
-			}} >
-				{chidlren}
-			</RouterContext.Provider>
+			<RouterContext.Provider
+				children={children}
+				value={{
+					history: this.history,
+					location: this.state.location,
+					match: BrowserRouter.computeRootMatch(this.state.location.pathname)
+				}}
+			/>
 		)
 	}
 }

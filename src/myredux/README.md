@@ -1,9 +1,9 @@
-### 在写redux的过程中遇到的几个问题
+## redux
 
-感觉难点是applyMiddleware和compose。
+在写redux的过程中遇到了几个问题，感觉难点是applyMiddleware和compose。
 同时要注意在createStore的时候需要先初始化一次store。
 
-#### applyMiddleware(mylog, mythunk)时，dispatch增强后是什么样？
+### applyMiddleware(mylog, mythunk)时，dispatch增强后是什么样？
 
 next 有可能是其他middleware，也有可能是dispatch。
 
@@ -40,7 +40,7 @@ const mylog = ({dispatch, getState}) => (next) => (action) => {
 - mythunk最后调用dispatch
 - redux中注册的reducer
 
-#### thunk中间件里面action(dispatch, getState)中的dispatch是增强过的吗？
+### thunk中间件里面action(dispatch, getState)中的dispatch是增强过的吗？
 
 是的。
 

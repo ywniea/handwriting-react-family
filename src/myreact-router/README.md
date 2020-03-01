@@ -39,7 +39,7 @@ react-router在匹配时不是独占的，就是匹配了以后还会继续往�
 <Switch location={{ pathname: '/login' }} >
 ```
 
-- Switch通过自己的计算选中一个子元素进行渲染（将location.pathname与），会传一个`computedMatch`给子元素。在Route或者Redirect中可以去查看这个`computedMatch`。
+- Switch通过自己的计算选中一个子元素进行渲染（将location.pathname与Route的path或者Redirect的from进行匹配），如果匹配成功，会传一个`computedMatch`给子元素。在Route或者Redirect中会优先检查这个`computedMatch`的匹配结果。
 
 ### Route
 
@@ -155,6 +155,9 @@ Link的属性：
 
 代码中还有关于计算match和generatePath等一些方法放在了utils文件夹中，用到了`path-to-regexp`这个库。其中的实现直接拷自源码。
 
+代码中还用到了`history`的一些方法。
+
 ```bash
 npm i path-to-regexp@1.7.0 --save
+npm i history@4.9.0 --save
 ```
