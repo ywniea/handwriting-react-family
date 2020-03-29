@@ -17,7 +17,7 @@ Handwrite a simple version of react family.
 ### react-redux
 
 - connect
-- provider
+- Provider
 
 ### react-router
 
@@ -31,3 +31,5 @@ Handwrite a simple version of react family.
 
 - React.Component
 - React.createElement
+<!-- - React.createContext -->
+- ReactDOM.render
