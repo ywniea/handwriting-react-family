@@ -1,3 +1,8 @@
+# React
+这种图是这个handwriting react的基本思想，涉及到更新队列updateQueue, 更新器Updater，Component的初始化、更新以及diff算法。
+
+![React The Big Picture](./ReactTheBigPicture.jpg)
+
 ## React.createElement
 
 JSX是一个Javascript的语法扩展。我们在react中使用JSX时，每个 JSX 元素都是调用 React.createElement()来生成 virtual-node。
@@ -35,6 +40,8 @@ let vnode = {
 ReactDOM.render(vnode, container, callback)
 ```
 将React.createElement产生的vnode转换成真正的DOM元素，通过并将这个DOM元素作为container的child。
+
+![ReactDOM.render](./ReactDOM.render-init.jpg)
 
 ## 关于vnode
 
@@ -79,7 +86,7 @@ vstateless就是上面的vnode
 
 props中的style、onClick等等不会真的起作用，他们会被当做从父组件传进来的props。
 
-### 当vtype是一个html元素时，例如`section`
+### 当vtype是一个html元素时，例如`div`
 velement就是上面的vnode
 
 | velement | 真实的dom元素 node=document.createElement('div') | 
