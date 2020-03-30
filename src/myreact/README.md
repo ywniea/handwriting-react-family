@@ -1,15 +1,9 @@
-## react
-
-实现了下面API：
-- React.createElement
-- React.Component
-- ReactDOM.render
-<!-- - React.createContext -->
-
-### React.createElement
+## React.createElement
 
 JSX是一个Javascript的语法扩展。我们在react中使用JSX时，每个 JSX 元素都是调用 React.createElement()来生成 virtual-node。
 后面简称vnode。
+
+一般不会手动调用React.createElement，react会在解析JSX时自动帮我们调用这个函数。
 
 ```js
 React.createElement(
@@ -23,43 +17,90 @@ React.createElement(
 
 ```js
 let vnode = {
-		vtype: vtype,
-		type: type,
-		props: props,
-		refs: refs,
-		key: key,
-		ref: ref,
-		uid: 2  
-	}
+	vtype: vtype, // 用来区分原生html元素、class组件、function组件
+	type: type, // 具体的html元素类型或class或function
+	props: props,
+	refs: refs,
+	key: key,
+	ref: ref,
+	uid: 2  
+}
 ```
 
-### ReactDOM.render
+可以看出来vnode只是一个js对象，props中存放了父组件传进来的数据和children。之后在更新页面的时候对vnode进行diff操作就是比较新老vnode的数据是否一致。
+
+## ReactDOM.render
 
 ```js
 ReactDOM.render(vnode, container, callback)
 ```
+将React.createElement产生的vnode转换成真正的DOM元素，通过并将这个DOM元素作为container的child。
 
-将React.createElement产生的vnode转换成真正的DOM元素，通过并将这个DOM元素作为传入的container的child。
+## 关于vnode
 
-### updateQueue和updater
+通过createElement生成最初的vNode数据结构：
+```js
+let vnode = {
+	vtype: vtype, // 用来区分原生html元素、class组件、function组件
+	type: type, // 具体的html元素类型或class或function
+	props: props, // 包括children、style、onClick等等在内的各种属性 
+	refs: refs,
+	key: key,
+	ref: ref,
+	uid: 2  
+}
+```
+我们根据其vtype来分情况生成真实的dom元素。
+### 当vtype是一个class类型时，例如`class Message{}`
+vcomponent就是上面说的vnode
 
+|vcomponent| component = new Message(props)| vnode = component.render() | 真正的dom元素 node=initVnode(vnode) |
+| --- | --- | --- | --- |
+| vtype=VCOMPONENT | `component.$cache: ` `$cache.vnode=vnode` `$cache.node=node` |  |`node.cache: ` `cache[uid]=component`  |
+| type= class Message | $updater |  |  |
+| props | props=vcomponent.props |  |
+| uid |  |  |  |
+| key |  |  |  |
+| ref |  |  |  |
 
-### React.Component
+props中的style、onClick等等不会真的起作用，他们会被当做从父组件传进来的props。
 
-- 几个生命周期钩子的调用时机
-- setState
-- diff算法
+### 当vtype是一个function类型时，例如`function Title(){}`
+vstateless就是上面的vnode
 
-#### 几个生命周期钩子的调用时机
+| vstateless | vnode = Title(props) | 真实的dom元素 node=initVnode(vnode) |
+| --- | --- | --- |
+| vtype=VSTATELESS |  | `node.cache[uid]=vnode` |
+| type=function Title |  |  |
+| props |  |  |
+| uid |  |  |  |
+| key |  |  |  |
+| ref |  |  |  |
 
-#### setState批量合并和callback函数
+props中的style、onClick等等不会真的起作用，他们会被当做从父组件传进来的props。
 
-#### diff算法
+### 当vtype是一个html元素时，例如`section`
+velement就是上面的vnode
 
-### 事件系统
+| velement | 真实的dom元素 node=document.createElement('div') | 
+| --- | --- |
+| vtype=VELEMENT |  |
+| type=div |  |  
+| props | 此时props中的style、onClick等才会起作用 |  
+| uid |  |  
+| key |  |   
+| ref |  | 
 
-### React.createContext
+## React.Component
+### setState批量合并和callback函数
+### diff算法
+
+## 事件系统
+
+## React.createContext
 
 ```js
 let myContext = React.createContext(defaultValue);
 ```
+
+

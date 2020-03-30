@@ -191,6 +191,7 @@ function diffVchildren(patches, vnode, newVnode, node, parentContext) {
 
 	if (vchildrenLen === 0) {
 		if (newVchildrenLen > 0) {
+			// 老children是空的，新children不为空，直接create 新children
 			for (let i = 0; i < newVchildrenLen; i++) {
 				patches.creates.push({
 					vnode: newVchildren[i],
@@ -202,6 +203,7 @@ function diffVchildren(patches, vnode, newVnode, node, parentContext) {
 		}
 		return
 	} else if (newVchildrenLen === 0) {
+		// 老children不为空，新children为空，直接remove 老的children
 		for (let i = 0; i < vchildrenLen; i++) {
 			patches.removes.push({
 				vnode: vchildren[i],
@@ -216,7 +218,7 @@ function diffVchildren(patches, vnode, newVnode, node, parentContext) {
 	let removes = null
 	let creates = null
 
-
+	// 两层循环老的和新的children  
 	for (let i = 0; i < vchildrenLen; i++) {
 		let vnode = vchildren[i]
 		for (let j = 0; j < newVchildrenLen; j++) {
