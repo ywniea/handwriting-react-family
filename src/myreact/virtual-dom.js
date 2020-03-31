@@ -218,7 +218,22 @@ function diffVchildren(patches, vnode, newVnode, node, parentContext) {
 	let removes = null
 	let creates = null
 
-	// 两层循环老的和新的children  
+	// 如果新老vnode就是同一个
+	// （但是他的children和property不一定相同，后续会递归去比较child的child是否相同）
+	// 则按照新vnode数组中的顺序更新updates数组
+
+	// 递归的方法：
+	//   1. velement 直接调用 diffVchildren
+	// 	 2. vstateless 在 updateVstateless 中调用 compareTwoVnodes
+	// 	 3. vcomponent 在 updateVcomponent 中调用 updater.emitUpdate -> component.forceUpdate -> compareTwoVnodes
+
+	/**
+	 * 举个例子：
+	 * 
+	 * vchildren = [a, b, c, d]
+	 * newVchildren = [A, C, E, F, B];
+	 */
+
 	for (let i = 0; i < vchildrenLen; i++) {
 		let vnode = vchildren[i]
 		for (let j = 0; j < newVchildrenLen; j++) {
@@ -241,7 +256,21 @@ function diffVchildren(patches, vnode, newVnode, node, parentContext) {
 		}
 	}
 
-	// isSimilar
+	/**
+	 * 上面的for循环运行完之后：
+	 * updates = [
+	 * 	{vnode: a, newNode: A, index: 0},
+	 * 	{vnode: c, newNode: C, index: 1}, 
+	 *  empty, empty,
+	 *  {vnode: b, newNode: B, index: 4}
+	 * ]
+	 * 
+	 * vchildren = [null, null, c, d]
+	 * newVchildren = [A, C, E, F, B];
+	 */
+
+	// 新老vnode不是同一个，但他们的key refs type都相同，也添加到updates中
+	// 仍然在老vchildren中剩下的vnode，因为它在新vchildren中找不到，则添加到removes中
 	for (let i = 0; i < vchildrenLen; i++) {
 		let vnode = vchildren[i]
 		if (vnode === null) {
@@ -280,6 +309,14 @@ function diffVchildren(patches, vnode, newVnode, node, parentContext) {
 		}
 	}
 
+	/**
+	 * removes=[{vnode: c}, {vnode: d}]
+	 */
+
+
+	// 这时updates中已经存好了新老vnode的update的映射，如果updates中还有空的位置
+	// 则说明updates中空的位置（2，3）对应的 newVchildren 的（2，3）位置的元素在老vchildren中不曾出现过
+	// 就是E,F  这俩是新的，放到creates中
 	for (let i = 0; i < newVchildrenLen; i++) {
 		let item = updates[i]
 		if (!item) {
@@ -293,9 +330,13 @@ function diffVchildren(patches, vnode, newVnode, node, parentContext) {
 				index: i,
 			})
 		} else if (item.vnode.vtype === VELEMENT) {
+			// 如果是普通的html元素，手动递归调用 diffVchildren 比较新老vnode的子元素
 			diffVchildren(patches, item.vnode, item.newVnode, item.node, item.parentContext)
 		}
 	}
+	/**
+	 * creates = [{vnode: E, index: 2}, {vnode: F, index: 3}]
+	 */
 
 	if (removes) {
 		patches.removes.push(removes)
@@ -585,7 +626,8 @@ export function syncCache(cache, oldCache, node) {
 	}
 }
 
-
+// 返回false 就会更新
+// 返回true 就不更新
 function shouldIgnoreUpdate(node) {
 	let {
 		vchildren,

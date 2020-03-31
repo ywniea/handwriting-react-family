@@ -1,7 +1,8 @@
 # React
-这种图是这个handwriting react的基本思想，涉及到更新队列updateQueue, 更新器Updater，Component的初始化、更新以及diff算法。
 
-![React The Big Picture](./ReactTheBigPicture.jpg)
+这是一个简单版本的React，涉及到更新队列updateQueue, 更新器Updater，事件系统，Component的初始化、更新以及diff算法。
+
+![React The Big Picture](./images/ReactTheBigPicture.jpg)
 
 ## React.createElement
 
@@ -39,13 +40,30 @@ let vnode = {
 ```js
 ReactDOM.render(vnode, container, callback)
 ```
-将React.createElement产生的vnode转换成真正的DOM元素，通过并将这个DOM元素作为container的child。
+将React.createElement产生的vnode转换成真正的DOM元素，作为child添加到container上。
 
-![ReactDOM.render](./ReactDOM.render-init.jpg)
+![ReactDOM.render](./images/ReactDOM.render-init.jpg)
 
-## 关于vnode
+## component.forceUpdate
 
-通过createElement生成最初的vNode数据结构：
+diff算法: compareTwoVnodes
+
+![component.forceUpdate](./images/component.forceUpdate.jpg)
+
+## setState批量合并和callback函数
+
+## 事件系统
+
+## React.createContext
+
+```js
+let myContext = React.createContext(defaultValue);
+```
+
+## 其他
+关于vnode到真实dom元素的转换细节。
+通过createElement生成最初的vNode数据结构是这样的：
+
 ```js
 let vnode = {
 	vtype: vtype, // 用来区分原生html元素、class组件、function组件
@@ -97,17 +115,4 @@ velement就是上面的vnode
 | uid |  |  
 | key |  |   
 | ref |  | 
-
-## React.Component
-### setState批量合并和callback函数
-### diff算法
-
-## 事件系统
-
-## React.createContext
-
-```js
-let myContext = React.createContext(defaultValue);
-```
-
 
