@@ -87,6 +87,7 @@ class Updater {
 					nextState = nextState[0];
 				}
 				if (_.isFn(nextState)) {
+					// 这里说明如果传进来nextState是个函数，那么可以在批量更新过程中拿到当前最新的state的值
 					nextState = nextState(instance, state, props);
 				}
 				if (isReplace) {

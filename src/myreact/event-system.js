@@ -119,7 +119,7 @@ function dispatchEvent(event) {
 	let eventType = 'on' + type
 	let syntheticEvent
 	updateQueue.isPending = true
-	// 冒泡 从当前target 一直到最外层，一次检测有没有添加相应的事件
+	// 冒泡 从target 一直到最外层，依次检测有没有添加相应的事件
 	while (target) {
 		let { eventStore } = target
 		let listener = eventStore && eventStore[eventType]

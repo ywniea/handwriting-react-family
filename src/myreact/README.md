@@ -52,15 +52,138 @@ diff算法: compareTwoVnodes
 
 ## setState批量合并和callback函数
 
+setState 有多种函数签名。setState对state的更新有可能是批量进行的。
+
+```js
+// setState(object)
+this.setState({num: 2});
+
+// setState(object, callback)
+this.setState({num: 3}, ()=> {console.log(this.state.num)});
+
+// setState(() => {return stateObj})
+this.setState((state, props)=>{return {num: state.num + 5}});
+
+// setState([stateObj])
+this.setState([{counter: 1}]);
+
+```
+
+setState会将传入的nextState和callback函数放到等到更新的队列中。
+
+```js
+setState(nextState, callback) {
+	this.$updater.addCallback(callback); // 加入到 pendingCallbacks 队列中
+	this.$updater.addState(nextState);  // 加入到 pendingStates 队列中
+}
+```
+
+pendingStates 中存放的是传入到setState的第一个参数，pendingStates是等带更新的state的队列。
+
+```js
+if (pendingStates.length > 0) {
+	state = { ...state };
+	pendingStates.forEach(nextState => {
+		let isReplace = _.isArr(nextState);
+		if (isReplace) {
+			nextState = nextState[0];
+		}
+		if (_.isFn(nextState)) {
+			// 这里说明如果传进来nextState是个函数，那么可以在批量更新过程中拿到当前最新的state的值
+			nextState = nextState(instance, state, props);
+		}
+		if (isReplace) {
+			state = { ...nextState };
+		} else {
+			state = { ...state, ...nextState };
+		}
+	});
+	// 清空pendingStates
+	pendingStates = [];
+}
+```
+
+在state批量更新之后，pendingCallbacks 队列中的callback函数才会被依次执行。
+
 ## 事件系统
 
+React 中的事件系统并不是直接对元素添加当前注册的listener。而是将当前注册的listener放到 eventStore 中。
+
+```js
+// 例如 eventType = 'onClick'
+function addEvent(element, eventType, listener){
+	
+	const eventStore = element.eventStore || (element.eventStore = {});
+	eventStore[eventType] = listener;
+
+	// ...
+
+  // 将 dispatchEvent 注册到 document 上面，冒泡阶段触发
+	document.addEventListener(eventType.substr(2), dispatchEvent, false);
+}
+
+```
+
+由于document是最外面的一层对象，还是在冒泡阶段触发，所有只会执行一个dispatchEvent，不会有其他的副作用。
+dispatchEvent是这样的：
+
+```js
+function dispatchEvent(event){
+	let { target, type } = event;
+
+	// 事件执行期间不会进行组件update操作
+	updateQueue.isPending = true;
+
+	// 模仿事件冒泡 从target 一直到最外层，依次检测有没有添加相应的事件
+	while (target) {
+		let { eventStore } = target;
+		let listener = eventStore && eventStore[eventType];
+		if (!listener) {
+			target = target.parentNode;
+			continue;
+		}
+
+		listener.call(target, syntheticEvent);
+		target = target.parentNode;
+	}
+
+	// 打开开关，期间有pending等待update的组件可以更新啦 
+	updateQueue.isPending = false;
+	updateQueue.batchUpdate();
+}
+
+```
+假设是这个例子:
+
+```jsx
+<div onClick={() => {console.log('div')}}>
+	<section onClick={() => {console.log('section')}}>
+		<button onClick={() => {console.log('button')}}> click me! </button>
+	</section>
+</div>
+```
+
+点击button之后，由于事件是注册到 document 上面的，最初`event.currentTarget`是 document 对象，`event.target`是被点击的button。
+
+那么从button开始，依次去eventStore里面找有没有对应的onClick函数，如果有就执行。
+结果就是依次显示
+
+```
+button
+section
+div
+```
+
 ## React.createContext
+
+// TODO
 
 ```js
 let myContext = React.createContext(defaultValue);
 ```
 
 ## 其他
+
 关于vnode到真实dom元素的转换细节。
 通过createElement生成最初的vNode数据结构是这样的：
 
