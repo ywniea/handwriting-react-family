@@ -44,14 +44,14 @@ class Title extends React.Component {
 
 function FuncComp(props) {
 	return (
-		<h2>{props.title}</h2>
+		<h3>{props.title}</h3>
 	);
 }
 
 
 const jsx = (
 	<section>
-		<FuncComp title='hand writing React' />
+		<FuncComp title='Handwriting react' />
 		<p style={{ color: 'green' }} pp='123qq' >a child</p>
 		<Message style={{ color: 'red' }} message='Something from parent' />
 	</section>
@@ -59,8 +59,10 @@ const jsx = (
 
 const div = document.createElement('div');
 div.setAttribute('id', 'for-react');
-div.setAttribute('style', 'border: solid 1px darkgreen');
-document.body.appendChild(div);
+div.setAttribute('style', 'border: 1px solid #ffffe5');
+
+let container = document.getElementById('my-root')
+container.appendChild(div);
 
 render(jsx, document.getElementById('for-react'));
 

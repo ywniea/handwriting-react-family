@@ -73,8 +73,9 @@ class TodoList extends Component {
 		const { listShowAll, listShowFinished, listShowUnfinished } = this.props;
 
 		return (
-			<div>
-				<h3>Handwriting react-redux - my todolist</h3>
+			<div style={{ border: '1px solid #ffe5e5' }} >
+				<h3>Handwriting react-redux</h3>
+				Todo list
 				<Input
 					input={input}
 					onKeyDown={this.onKeyDown}

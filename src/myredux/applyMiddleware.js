@@ -23,6 +23,7 @@ const applyMiddleware = (...middlewares) =>
 		}
 
 		// 接下来要用middleware来增强dispatch
+		// middleware 签名是 ({getState, dispatch}) => (next) => (action) => {}
 		let middlewareList = middlewares.map(middleware => middleware(middlewareAIP));
 		// middlewareList 是[(next) => (action) => {}]
 		dispatch = compose(...middlewareList)(dispatch);

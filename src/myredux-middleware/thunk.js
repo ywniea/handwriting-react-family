@@ -5,6 +5,7 @@
 // 当这个函数处理异步问题时，也就可以支持异步了
 
 const thunk = ({ dispatch, getState }) => next => action => {
+	console.log('thunk')
 	if (typeof action === 'function') {
 		return action(dispatch, getState);
 	}

@@ -22,19 +22,22 @@ function LoginGuard({ isLogin, component: Comp, ...rest }) {
 export default class RouteTest extends Component {
 	render() {
 		return (
-			<BrowserRouter>
-				<Link to="/" >main</Link>
-				<Link to="/product" >product</Link>
-				<Link to='/login' >login</Link>
-				<Link to='/settings' >settings</Link>
-				<Switch>
-					<Route exact path='/' component={Main} />
-					<Route path='/product' component={ProductList} />
-					<Route path='/login' component={Login} />
-					<LoginGuard path='/settings' component={Settings} isLogin />
-					<Redirect to='/login' />
-				</Switch>
-			</BrowserRouter>
+			<div style={{ border: '1px solid #e5f5ff' }} >
+				<h3>HandWriting react-router</h3>
+				<BrowserRouter>
+					<Link to="/" >main</Link>
+					<Link to="/product" >product</Link>
+					<Link to='/login' >login</Link>
+					<Link to='/settings' >settings</Link>
+					<Switch>
+						<Route exact path='/' component={Main} />
+						<Route path='/product' component={ProductList} />
+						<Route path='/login' component={Login} />
+						<LoginGuard path='/settings' component={Settings} isLogin />
+						<Redirect to='/login' />
+					</Switch>
+				</BrowserRouter>
+			</div>
 		);
 	}
 }
