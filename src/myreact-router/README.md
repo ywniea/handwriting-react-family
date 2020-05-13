@@ -1,3 +1,98 @@
+# 路由
+不管是什么路由相关的库，他们的本质都是两种路由方案：window.location.hash 和 window.history
+
+## window.location.hash模式
+看代码
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>hash 路由</title>
+</head>
+
+<body>
+	<header>
+		<a href="#home">首页</a>
+		<a href="#center">个人中心页</a>
+		<a href="#help">帮助页</a>
+	</header>
+	<section id="content"></section>
+	<button onclick="buttonClick(this)" id='btn'>click</button>
+	<script>
+		// 触发hashchange 有两种方法：
+		// 一种是 <a href="#center"></a> 通过a标签
+		// 另一种是直接给 window.location.hash = '#btn' 赋值。
+		window.addEventListener('hashchange', (e) => {
+			let content = document.getElementById('content');
+			console.log(location.hash)
+			content.innerText = location.hash;
+		})
+
+		function buttonClick(btn) {
+			window.location.hash = '#btn';
+		}
+	</script>
+</body>
+
+</html>
+```
+
+## 使用window.history
+看代码
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>history 路由</title>
+</head>
+
+<body>
+	<header>
+		<a onclick="changeRoute(this)" data-path="home">首页</a>
+		<a onclick="changeRoute(this)" data-path="center">个人中心页</a>
+		<a onclick="changeRoute(this)" data-path="help">帮助页</a>
+	</header>
+	<section id="content"></section>
+	<script>
+		function changeRoute(route) {
+			let path = route.dataset.path;
+			/**
+			 * window.history.pushState(state, title, url)
+			 * state：一个与添加的记录相关联的状态对象，主要用于popstate事件。该事件触发时，该对象会传入回调函数。
+			 *        也就是说，浏览器会将这个对象序列化以后保留在本地，重新载入这个页面的时候，可以拿到这个对象。
+			 *        如果不需要这个对象，此处可以填 null。
+			 * title：新页面的标题。但是，现在所有浏览器都忽视这个参数，所以这里可以填空字符串。
+			 * url：新的网址，必须与当前页面处在同一个域。浏览器的地址栏将显示这个网址。
+			 */
+			changePage(path);
+			window.history.pushState({
+				content: path
+			}, 'this is title', path);
+		}
+		/**
+		 * 调用 history.pushState() 或者 history.replaceState() 不会触发 popstate 事件。
+		 * 点击后退、前进按钮、或者在 js 中调用 history.back()、history.forward()、history.go() 方法会触发
+		 */
+		window.addEventListener('popstate', (e) => {
+			let content = e.state && e.state.content;
+			changePage(content);
+		});
+
+		function changePage(pageContent) {
+			let content = document.getElementById('content');
+			content.innerText = pageContent;
+		}
+	</script>
+</body>
+
+</html>
+```
+
+
 ## react-router-dom
 
 `react-router-dom`的想法很简单，就是一切皆组件。
