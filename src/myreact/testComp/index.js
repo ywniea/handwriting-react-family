@@ -57,12 +57,17 @@ const jsx = (
 	</section>
 );
 
-const div = document.createElement('div');
-div.setAttribute('id', 'for-react');
-div.setAttribute('style', 'border: 1px solid #ffffe5');
+function a() {
+	let container = document.getElementById('my-root')
+	let div = document.createElement('div');
+	div.setAttribute('id', 'for-react');
+	div.setAttribute('style', 'border: 1px solid #ffffe5');
+	container.appendChild(div);
+	render(jsx, document.getElementById('my-root'));
+}
 
-let container = document.getElementById('my-root')
-container.appendChild(div);
 
-render(jsx, document.getElementById('for-react'));
-
+export default {
+	render,
+	jsx
+}

@@ -22,7 +22,7 @@ function LoginGuard({ isLogin, component: Comp, ...rest }) {
 export default class RouteTest extends Component {
 	render() {
 		return (
-			<div style={{ border: '1px solid #e5f5ff' }} >
+			<div>
 				<h3>HandWriting react-router</h3>
 				<BrowserRouter>
 					<Link to="/" >main</Link>

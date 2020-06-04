@@ -1,28 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import './myreact/testComp/index';
+// import './myreact/testComp/index';
 
-// import ReduxTodoList from './myredux/testComp/todolist';
-import ReactReduxTodoList from './myreact-redux/testComp/CompWithProvider';
-import RouteTest from './myreact-router/testComp/routePage';
-// import ErrorBoundary from './mycomponent/errorBoundary';
-// import LifeCycle from './mycomponent/lifecycle';
-// import Uploader from './mycomponent/uploader';
-import LifeCycleEarly from './mycomponent/lifecycle-early'
-// import MyTest from './mycomponent/setStateTest';
+import Layout from './mycomponent/layout';
 
 const jsx = (
-	<div>
-		{/* <Uploader /> */}
-		{/* <ReduxTodoList /> */}
-		<ReactReduxTodoList />
-		<RouteTest />
-		{/* <ErrorBoundary> */}
-		{/* <LifeCycle msg='Please click lifecycle' /> */}
-		{/* </ErrorBoundary> */}
-		{/* <MyTest /> */}
-		<LifeCycleEarly />
+	<div className="main-page">
+		<header>
+			<h2>Simple case for practice</h2>
+		</header>
+		<Layout />
 	</div>
 );
 

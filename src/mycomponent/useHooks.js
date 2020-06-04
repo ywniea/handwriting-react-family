@@ -65,6 +65,7 @@ export default function HookExample() {
 	useEffect(() => {
 		// or other ajax from backend and DB
 		// or do something with DOM
+		console.log('useEffect')
 		setTimeout(() => {
 			setFruits({ type: FRUIT_TYPE.INIT, payload: ['apple'] });
 		}, 500);

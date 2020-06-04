@@ -20,10 +20,20 @@ export default class MyTest extends Component {
 			console.log(this.state.val);  // 第 4 次 log
 		}, 0);
 	}
+	tosetState = () => {
+		// setState异步更新
+		this.setState({ name: 'xiaoming' }, () => {
+			console.log('in setState callback', this.state)
+		})
+		console.log(this.state)
+	}
+
 	render() {
 		return (
 			<div>
-				ssss
+				{JSON.stringify(this.state, null, 2)}
+				<br />
+				<button onClick={this.tosetState}>click to setstate</button>
 			</div>
 		)
 	}

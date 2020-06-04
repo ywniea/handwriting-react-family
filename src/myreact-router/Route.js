@@ -9,7 +9,7 @@ export default class Route extends Component {
 				{context => {
 					// location 首选Switch从this.props.location传过来的，如果没有则从context中拿
 					const location = this.props.location || context.location;
-					console.log(location)
+					// console.log(location)
 					// computedMatch如果有的话，是从Switch中传过来的
 					const { component, render, children, computedMatch } = this.props;
 					const match = computedMatch

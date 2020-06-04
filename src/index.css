@@ -1,3 +1,32 @@
 li.delete {
 	text-decoration: line-through;
 }
+
+body {
+	height: 100vh;
+}
+
+#root {
+	height: 100%;
+}
+
+.main-page {
+	display: grid;
+	grid-auto-flow: row;
+	grid-template-rows: 80px auto;
+	height: 100%;
+}
+
+.main-page>header {
+	border-bottom: rosybrown 2px solid;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: 200px auto;
+	column-gap: 20px;
+}
+
+.nav {
+	border-right: 1px solid rosybrown;
+}
